@@ -1,0 +1,69 @@
+{%extends "layout.html" %}
+{% block content %}
+  <div style="background-color: #e6af8b;">
+    <form class="d-flex py-10 px-12">
+      <input class="form-control me-2" type="search" placeholder="Search" aria-label="Search">
+      <button class="btn btn-outline-success my" type="submit">Search</button>
+    </form>
+  </div>
+
+  <div class="flex justify-end">
+    <button class="btn btn-success rounded-xl mx-5 my-8 " type="button">YOUR CART</button>
+  </div>
+  <div class="card-group mx-8" >
+    <div class="card mx-8"  >
+      <img src="static/tv.jfif" class="card-img-top " style="height: 300px;" alt="TELEVISION">
+      <div class="card-body ">
+        <h3 class="card-title font-bld">TELEVISION</h3>
+        <p class="card-text"></p>
+        <p class="card-text"><small class="text-muted"></small></p>
+      
+           
+    
+           <a href="{{url_for('productinfo')}}">
+            <button class="btn btn-success" type="button">ADD TO CART</button></a>
+        
+          
+             
+      </div>
+    </div>
+    <div class="card mx-8">
+      <img src="static\rice.jfif" class="card-img-top" style="height: 300px;" alt="...">
+      <div class="card-body">
+        <h5 class="card-title font-bold ">BASMATI RICE</h5>
+        <p class="card-text"></p>
+        <p class="card-text"><small class="text-muted"></small></p>
+        <a href="{{url_for('productinfo')}}">
+          <button class="btn btn-success  " type="button">ADD TO CART</button></a>
+      </div>
+    </div>
+  
+  <div class="card mx-8" >
+    <img src="static/fridge.jfif" class="card-img-top" style="height: 300px;" alt="fridge">
+    <div class="card-body">
+      <h5 class="card-title font-bold">REFRIGERATOR</h5>
+      <p class="card-text"></p>
+      <p class="card-text"><small class="text-muted"></small></p>
+      <a href="{{url_for('productinfo')}}">
+        <button class="btn btn-success " type="button">ADD TO CART</button></a>
+    </div>
+  </div>
+  </div>
+  </div>
+  </div>
+  <div class="modal fade" id="exampleModal" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
+    <div class="modal-dialog">
+      <div class="modal-content">
+        <div class="modal-header">
+          <h5 class="modal-title" id="exampleModalLabel">LOGIN OR REGISTER</h5>
+          <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+          </div>
+          
+
+  <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/js/bootstrap.bundle.min.js"
+    integrity="sha384-MrcW6ZMFYlzcLA8Nl+NtUVF0sA7MsXsP1UyJoMp4YLEuNSfAP+JcXn/tWtIaxVXM"
+    crossorigin="anonymous"></script>
+</body>
+
+</html>
+{% endblock content%}
