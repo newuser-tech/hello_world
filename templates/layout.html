@@ -26,8 +26,13 @@
           <button class="btn btn-danger mx-5 rounded-xl" type="button">HOME</button></a>
           <button class="btn btn-danger mx-5 rounded-xl" data-bs-toggle="modal" data-bs-target="#Modal">ABOUT</button>
           
-        <a href="{{url_for('reg')}}">
-          <button class="btn btn-danger rounded-xl mx-5" type="button">LOGIN</button></a>
+       {%if session.get('name') %}
+          <a href="{{url_for('logout')}}">
+          <button type="button" class="btn btn-danger mx-11">LOGOUT </button> </a>
+       {% else %}   
+         <a href="{{url_for('reg')}}">
+         <button type="button" class="btn btn-danger mx-11">LOGIN</button> </a>
+       {% endif %}
       </div>
     </nav>
   </div>

@@ -74,12 +74,18 @@
 </div>
 
 <div class="d-flex justify-content-between">
-  <a href="{{url_for('login')}}">
-    <button type="button" class="btn btn-danger mx-11">LOGIN </button> </a>
+{%if session.get('name') %}
+     <a href="{{url_for('logout')}}">
+     <button type="button" class="btn btn-danger mx-11">LOGOUT </button> </a>
+  {% else %}   
+    <a href="{{url_for('login')}}">
+    <button type="button" class="btn btn-danger mx-11">LOGIN</button> </a>
+  {% endif %}
+
   <button type="button" class="btn btn-danger mx-10">REGISTER
     NOW</button>
-    <a href="{{url_for('logout')}}">
-      <button type="button" class="btn btn-danger mx-11">LOGOUT</button> </a>
+    <!-- <a href="{{url_for('logout')}}">
+      <button type="button" class="btn btn-danger mx-11">LOGOUT</button> </a> -->
 </div>
 
 
