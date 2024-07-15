@@ -25,11 +25,11 @@
       </ul>
       {% endif %}
     </div>
-    <div class="mb-3 form-check">
-      <input type="checkbox" class="form-check-input" id="exCheck1">
-      <label class="form-check-label" for="exCheck1">Check me out</label>
+    <div>
+      {{ bform.submit(class="btn btn-success", type='submit') }}
+      <a href="{{url_for( 'reg')}}">
+        <button class="btn btn-danger mx-5 rounded-xl" type="button">Register now</button></a>
     </div>
-    {{ bform.submit(class="btn btn-success", type='submit') }}
   </form>
 
 </div>

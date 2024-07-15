@@ -4,7 +4,7 @@
 <div class="my-11">
   <h1 class="text-center font-extrabold justify-center" style="font-size: xx-large;"> REGISTER </h1>
 </div>
-<div style="background-color: rgb(234, 235, 241); width: 700px; height: 500px;" class="mx-72 my-10 py-11">
+<div style="background-color: rgb(234, 235, 241); width: 700px; height: 500px;" class="mx-72 my-10 py-11 mb-3 w-72">
   <form class="container justify-items-center" method="post" action="{{url_for('reg')}}">
     {{ form.hidden_tag() }}
     <div class="mb-3 w-72 justify-center form-group">
@@ -69,6 +69,8 @@
 
 
       {{ form.submit(class="btn btn-success", type='submit') }}
+    
+      <h3> ALREADY REGISTERED LOGIN BELOW</h3>
     </div>
   </form>
 </div>

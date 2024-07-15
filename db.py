@@ -1,4 +1,10 @@
+from flask_bcrypt import Bcrypt
 import psycopg2
+from app import app
+
+app.config['SECRET_KEY'] = "c7bb9002b1c215c9f37e6f741c122c11"
+
+bcrypt = Bcrypt(app)
 
 def db_conn():
     DB_NAME = "hello"
@@ -16,7 +22,7 @@ def db_conn():
     return conn
 conn=db_conn()
 cur=conn.cursor()
-cur.execute('delete from customers')
+cur.execute('alter table products add column photo varchar(255)')
 conn.commit()
 cur.close()
 conn.close()
