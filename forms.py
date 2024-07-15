@@ -17,9 +17,10 @@ class loginform(FlaskForm):
     submit=SubmitField('LOGIN')
 
 class adminloginform(FlaskForm):
-    username=StringField('Name',validators=[DataRequired()]) 
-    email=StringField('emaill',validators=[DataRequired(),Email()]) 
-    password=PasswordField('pass',validators=[DataRequired(),Length(min=8 , max=20)])  
+    name=StringField('Name',validators=[DataRequired()]) 
+    email=StringField('Email',validators=[DataRequired(),Email()]) 
+    password=PasswordField('Password',validators=[DataRequired(),Length(min=8 , max=20)])
+    submit=SubmitField('LOGIN AS ADMIN')  
 
     
 

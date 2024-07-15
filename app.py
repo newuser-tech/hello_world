@@ -1,7 +1,7 @@
 from flask import Flask, render_template, redirect, url_for, flash, session, request
 import psycopg2
 from flask_bcrypt import Bcrypt
-from forms import RegistrationForm, loginform
+from forms import RegistrationForm, loginform,adminloginform
 from flask_session import Session
 
 app = Flask(__name__)
@@ -113,6 +113,37 @@ def logout():
     session.pop('name', None)
     flash("Logged out successfully!", 'success')
     return redirect(url_for('hello_world'))
+@app.route('/adminlogin',methods=['GET','POST'])
+def admin():
+    form=adminloginform()
+    if form.validate_on_submit():
+        name = form.name.data
+        email = form.email.data
+        password = form.password.data
+        
+        conn= db_conn()
+        cur= conn.cursor()
+        cur.execute('select * from admins where admin_email=%s and admin_name=%s',(email,name))
+        user=cur.fetchone()
+        cur.close()
+        conn.close()
+
+        if user:
+          stored_hash=user[2]
+          if bcrypt.check_password_hash(stored_hash, password):
+              session["name"]=email
+              flash("Logged in successfully!", 'success')
+              return redirect(url_for('hello_world'))
+          else:
+                flash("Login failed. Check your email and password and try again.", 'danger')
+        else:
+            flash("Login failed. Check your email and password and try again.", 'danger')
+        
+    return render_template('admin.html', form=form)
+
+              
+        
+
 
 if __name__ == "__main__":
     app.run(debug=True, port=8001)
