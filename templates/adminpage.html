@@ -1,0 +1,22 @@
+{% extends "layout.html" %}
+{% block content %}
+<div>
+    <h1 class="font-extrabold " style="font-size: xxx-large; text-align: center;"> ADMIN PAGE</h1>
+</div>
+  <div>
+    <!-- Large button groups (default and split) -->
+<div class="btn-group mx-7 my-11 ">
+    <button class="btn btn-secondary btn-lg btn btn-success dropdown-toggle" type="button" data-bs-toggle="dropdown" aria-expanded="false">
+      YOUR OPTIONS
+    </button>
+    <ul class="dropdown-menu">
+      <li><a href="{{url_for('login')}}"><button type="button" class="btn btn-danger mx-7 my-7">INSERT</button></a></li>
+      <li><a href="{{url_for('login')}}"><button type="button" class="btn btn-danger mx-7 my-7">SELECT</button></a></li>
+      <li><a href="{{url_for('login')}}"><button type="button" class="btn btn-danger mx-7 my-7">DELETE</button></a></li>
+      <li><a href="{{url_for('login')}}"><button type="button" class="btn btn-danger mx-7 my-7">UPDATE</button></a></li>
+      
+    </ul>
+  </div>
+  
+  </div>
+  {% endblock content %}

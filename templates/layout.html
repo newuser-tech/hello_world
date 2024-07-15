@@ -2,54 +2,54 @@
 <html lang="en">
 
 <head>
-
-
   <meta charset="utf-8">
   <meta name="viewport" content="width=device-width, initial-scale=1">
   <script src="https://cdn.tailwindcss.com"></script>
-
-
   <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/css/bootstrap.min.css" rel="stylesheet"
     integrity="sha384-EVSTQN3/azprG1Anm3QDgpJLIm9Nao0Yz1ztcQTwFspd3yD65VohhpuuCOmLASjC" crossorigin="anonymous">
-
+  <style>
+    body {
+      background-image: url('static/backg.jfif');
+      background-size: cover; 
+      background-repeat: no-repeat; 
+    }
+  </style>
   <title>Hello, world!</title>
 </head>
 
-<body style="background: #14829e; ">
-
+<body>
   <div>
-    <nav class="navbar navbar-expand-xl navbar-light w-100 p-4" style="background-color: rgb(230, 175, 139);">
+    <nav class="navbar navbar-expand-xl navbar-light w-100 p-4">
       <h1 class="navbar-brand text-justify decoration-8 font-extrabold" style="font-size: xxx-large; margin: 0;">PASAL
       </h1>
       <div class="d-grid gap-2 d-md-block ms-auto navbar-brand">
-        <a href="{{url_for( 'hello_world')}}">
+        <a href="{{url_for('hello_world')}}">
           <button class="btn btn-danger mx-5 rounded-xl" type="button">HOME</button></a>
-          <button class="btn btn-danger mx-5 rounded-xl" data-bs-toggle="modal" data-bs-target="#Modal">ABOUT</button>
-          
-       {%if session.get('name') %}
+        <button class="btn btn-danger mx-5 rounded-xl" data-bs-toggle="modal" data-bs-target="#Modal">ABOUT</button>
+        
+        {% if session.get('name') %}
           <a href="{{url_for('logout')}}">
-          <button type="button" class="btn btn-danger mx-11">LOGOUT </button> </a>
-       {% else %}   
-         <a href="{{url_for('reg')}}">
-         <button type="button" class="btn btn-danger mx-11">LOGIN</button> </a>
-       {% endif %}
+            <button type="button" class="btn btn-danger mx-11">LOGOUT</button></a>
+        {% else %}
+          <a href="{{url_for('reg')}}">
+            <button type="button" class="btn btn-danger mx-11">LOGIN</button></a>
+        {% endif %}
       </div>
     </nav>
   </div>
   
-  {% with messeges=get_flashed_messages(with_categories=true)%}
-     {% if messeges %}
-        {% for category, message in messeges %}
-            <div class="alert alert-{{category}} font-extrabold" style="height:100px ;">
-            <p> {{message}}</p> 
-            </div>
-
-        
-        {% endfor %} 
-      {% endif %}
+  {% with messages=get_flashed_messages(with_categories=true) %}
+    {% if messages %}
+      {% for category, message in messages %}
+        <div class="alert alert-{{ category }} font-extrabold" style="height:100px;">
+          <p>{{ message }}</p>
+        </div>
+      {% endfor %}
+    {% endif %}
   {% endwith %}
-  {%block content%}
-  {% endblock content%}
+  
+  {% block content %}
+  {% endblock content %}
   
   <div class="modal fade" id="Modal" tabindex="-1" aria-labelledby="ModalLabel" aria-hidden="true">
     <div class="modal-dialog">
@@ -59,7 +59,7 @@
           <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
         </div>
         <div class="modal-body" style="background-color: #7d7d90;">
-          <h1 class="font-extrabold"> ABOUT US</h1>
+          <h1 class="font-extrabold">ABOUT US</h1>
           <div>
             <p>Lorem ipsum dolor sit amet consectetur adipisicing elit. Tempore atque, saepe facilis quae, fugiat minus
               perferendis dolores mollitia enim deserunt nemo quod cum praesentium, suscipit esse excepturi nesciunt dicta
@@ -77,12 +77,9 @@
       </div>
     </div>
   </div>
+  
   <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/js/bootstrap.bundle.min.js"
-  integrity="sha384-MrcW6ZMFYlzcLA8Nl+NtUVF0sA7MsXsP1UyJoMp4YLEuNSfAP+JcXn/tWtIaxVXM" crossorigin="anonymous"></script>
+    integrity="sha384-MrcW6ZMFYlzcLA8Nl+NtUVF0sA7MsXsP1UyJoMp4YLEuNSfAP+JcXn/tWtIaxVXM" crossorigin="anonymous"></script>
 </body>
+
 </html>
-  
-  
-
-
-  

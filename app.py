@@ -133,13 +133,17 @@ def admin():
           if bcrypt.check_password_hash(stored_hash, password):
               session["name"]=email
               flash("Logged in successfully!", 'success')
-              return redirect(url_for('hello_world'))
+              return redirect(url_for('crud'))
           else:
                 flash("Login failed. Check your email and password and try again.", 'danger')
         else:
             flash("Login failed. Check your email and password and try again.", 'danger')
         
     return render_template('admin.html', form=form)
+
+@app.route('/adminpanel',methods=['GET','POST'])
+def crud():
+    return render_template('adminpage.html')
 
               
         
