@@ -1,10 +1,11 @@
 {% extends "layout.html" %}
 {% block content %}
 
-<div class="">
+
+
+<div style=" width: 700px; height: 500px;" class="mx-72 mb-3 w-72">
   <h1 class="text-center font-extrabold justify-center" style="font-size: xx-large;"> REGISTER </h1>
-</div>
-<div style=" width: 700px; height: 500px;" class="mx-72 my-7 py-11 mb-3 w-72">
+
   <form class="container justify-items-center mx-60 " method="post" action="{{url_for('reg')}} ">
     {{ form.hidden_tag() }}
     <div class="mb-3 w-72 justify-center form-group">
@@ -70,7 +71,7 @@
 
       {{ form.submit(class="btn btn-success", type='submit') }}
     
-      <h3> ALREADY REGISTERED LOGIN BELOW</h3>
+      <h3 class="font-extrabold text-yellow-900"> ALREADY REGISTERED LOGIN BELOW</h3>
     </div>
   </form>
 </div>
