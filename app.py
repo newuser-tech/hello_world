@@ -3,6 +3,7 @@ import psycopg2
 from flask_bcrypt import Bcrypt
 from forms import RegistrationForm, loginform,adminloginform
 from flask_session import Session
+from bac import register_routes
 
 app = Flask(__name__)
 app.config['SECRET_KEY'] = "c7bb9002b1c215c9f37e6f741c122c11"
@@ -10,6 +11,7 @@ app.config["SESSION_PERMANENT"] = False
 app.config["SESSION_TYPE"] = "filesystem"
 Session(app)
 bcrypt = Bcrypt(app)
+register_routes(app)
 
 # Function to establish database connection
 def db_conn():
@@ -73,7 +75,7 @@ def reg():
         flash('Registration successful!', 'success')
         return redirect(url_for('reg'))
 
-    return render_template('login.html', form=form)  # Use form here
+    return render_template('login.html', form=form)  
 
 @app.route('/login', methods=['GET', 'POST'])
 def login():

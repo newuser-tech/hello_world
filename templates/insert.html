@@ -1,0 +1,76 @@
+{% extends "layout.html" %}
+{% block content %}
+<div class="">
+    <h1 class="text-center font-extrabold justify-center" style="font-size: xx-large;"> ADD PRODUCTS </h1>
+  </div>
+  <div style=" width: 700px; height: 500px;" class="mx-72 my-7 py-11 mb-3 w-72">
+    <form class="container justify-items-center mx-60 " method="post" action="{{url_for('bac.insert')}} ">
+      {{ form.hidden_tag() }}
+      <div class="mb-3 w-72 justify-center form-group">
+        {{ form.name.label(for="username",class='font-extrabold' ) }}
+        {{ form.name(id="username", class="form-label form-control ") }}
+        {% if form.name.errors %}
+        <ul>
+          {% for error in form.name.errors %}
+          <li>{{ error }}</li>
+          {% endfor %}
+        </ul>
+        {% endif %}
+      </div>
+  
+      <div class="mb-3 w-72 justify-center form-group">
+        {{ form.price.label(for="gmail",class="font-extrabold") }}
+        {{ form.price(id="gmail", class="form-label form-control ") }}
+        {% if form.price.errors %}
+        <ul>
+          {% for error in form.price.errors %}
+          <li>{{ error }}</li>
+          {% endfor %}
+        </ul>
+        {% endif %}
+      </div>
+  
+      <div class="mb-3 w-72 justify-center form-group">
+        {{ form.description.label(for="password",class='font-extrabold') }}
+        {{ form.description(id="password", class="form-label form-control") }}
+        {% if form.description.errors %}
+        <ul>
+          {% for error in form.description.errors %}
+          <li>{{ error }}</li>
+          {% endfor %}
+        </ul>
+        {% endif %}
+      </div>
+  
+      <div class="mb-3 w-72 justify-center form-group">
+        {{ form.photo.label(for="name",class="font-extrabold") }}
+        {{ form.photo(id="name", class="form-label form-control") }}
+        {% if form.photo.errors %}
+        <ul>
+          {% for error in form.photo.errors %}
+          <li>{{ error }}</li>
+          {% endfor %}
+        </ul>
+        {% endif %}
+    </div>
+  
+  
+  
+        {{ form.submit(class="btn btn-success", type='submit') }}
+      
+        
+      
+    
+  
+  <div class="d-flex justify-content-between">
+
+       <a href="{{url_for('crud')}}">
+       <button type="button" class="btn btn-danger mx-11">Back to admin panel</button> </a>
+  </div>
+</form>
+</div>
+  
+  
+  
+  
+{% endblock content %}
