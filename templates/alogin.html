@@ -1,8 +1,10 @@
 {% extends 'layout.html' %}
 {% block content %}
-<div class="form-group mx-96 my-11" style="height: 400px;">
+<div  class="form-group mx-auto my-11 py-3" style="width: 500px; height: auto; border: 2px solid #000; border-radius: 15px; box-shadow: 0 4px 8px rgba(0,0,0,0.2);">
+  
   <form class="container justify-items-center  mx-24 " , method="post" , action="{{url_for('login')}}">
     {{ bform.hidden_tag() }}
+     <h1 class="font-extrabold my-7 mx-20"style="font-size: 30px;">LOGIN</h1>
     <div class="mb-3 w-72 justify-center  ">
       {{ bform.email.label(for="Hello",class="font-extrabold ") }}
       {{ bform.email(id="Hello", class="form-label font-extrabold form-control my-7") }}

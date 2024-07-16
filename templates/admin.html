@@ -1,7 +1,8 @@
 {% extends "layout.html" %}
 {% block content %}
-<div style="width: 700px; height: 500px;" class="mx-72 my-10 py-11 mb-3 w-72">
-    <form class="container justify-items-center mx-52" method="post" action="{{url_for('admin')}}">
+<div style="width: 500px; height: auto; border: 2px solid #000; border-radius: 15px; box-shadow: 0 4px 8px rgba(0,0,0,0.2);"
+  " class="mx-96 my-10 py-11 mb-3 w-72">
+    <form class="container justify-items-center mx-24" method="post" action="{{url_for('admin')}}">
       {{ form.hidden_tag() }}
       <div class="mb-3 w-72 justify-center form-group">
         {{ form.name.label(for="username",class='font-extrabold' ) }}

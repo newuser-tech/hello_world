@@ -1,10 +1,10 @@
 {% extends "layout.html" %}
 {% block content %}
 <div class="">
-    <h1 class="text-center font-extrabold justify-center" style="font-size: xx-large;"> ADD PRODUCTS </h1>
+    <h1 class="text-center font-extrabold justify-center my-10" style="font-size: xx-large;"> ADD PRODUCTS </h1>
   </div>
-  <div style=" width: 700px; height: 500px;" class="mx-72 my-7 py-11 mb-3 w-72">
-    <form class="container justify-items-center mx-60 " method="post" action="{{url_for('bac.insert')}} ">
+  <div style="width: 500px; height: auto; border: 2px solid #000; border-radius: 15px; box-shadow: 0 4px 8px rgba(0,0,0,0.2);" class=" mx-96 my-7  py-9 mb-3 w-72">
+    <form class="container justify-items-center mx-28 " method="post" action="{{url_for('bac.insert')}} ">
       {{ form.hidden_tag() }}
       <div class="mb-3 w-72 justify-center form-group">
         {{ form.name.label(for="username",class='font-extrabold' ) }}
@@ -62,10 +62,10 @@
       
     
   
-  <div class="d-flex justify-content-between">
+  <div>
 
        <a href="{{url_for('crud')}}">
-       <button type="button" class="btn btn-danger mx-11">Back to admin panel</button> </a>
+       <button type="button" class="btn btn-danger mx-6 my-9">Back to admin panel</button> </a>
   </div>
 </form>
 </div>

@@ -3,10 +3,11 @@
 
 
 
-<div style=" width: 700px; height: 500px;" class="mx-72 mb-3 w-72">
+<div class="form-group mx-96 my-11 py-3" style="width: 500px; height: auto; border: 2px solid #000; border-radius: 15px;  box-shadow: 0 4px 8px rgba(0,0,0,0.2); ">
   <h1 class="text-center font-extrabold justify-center" style="font-size: xx-large;"> REGISTER </h1>
 
-  <form class="container justify-items-center mx-60 " method="post" action="{{url_for('reg')}} ">
+  <form class="container justify-items-center mx-24 " method="post" action="{{url_for('reg')}} ">
+
     {{ form.hidden_tag() }}
     <div class="mb-3 w-72 justify-center form-group">
       {{ form.name.label(for="username",class='font-extrabold' ) }}

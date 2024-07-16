@@ -12,15 +12,15 @@
   </div>
   <div class="card-group mx-8" >
     <div class="card mx-8"  >
-      <img src="static/tv.jfif" class="card-img-top " style="height: 300px;" alt="TELEVISION">
+      <img src="{{ data[4] }}" class="card-img-top " style="height: 300px;" alt="TELEVISION">
       <div class="card-body ">
-        <h3 class="card-title font-bld">TELEVISION</h3>
-        <p class="card-text"></p>
-        <p class="card-text"><small class="text-muted"></small></p>
+        <h3 class="card-title font-bld">{{ data[1] }}</h3>
+        <p class="card-text"> price={{ data[2] }}</p>
+        <p class="card-text"><small class="text-muted">{{ data[3] }}</small></p>
       
            
     
-           <a href="{{url_for('productinfo')}}">
+           <a href="{{url_for('productinfo',var=data[0])}}">
             <button class="btn btn-success" type="button">ADD TO CART</button></a>
         
           
@@ -28,23 +28,23 @@
       </div>
     </div>
     <div class="card mx-8">
-      <img src="static\rice.jfif" class="card-img-top" style="height: 300px;" alt="...">
+      <img src="{{ mata[4] }}" class="card-img-top" style="height: 300px;" alt="...">
       <div class="card-body">
-        <h5 class="card-title font-bold ">BASMATI RICE</h5>
-        <p class="card-text"></p>
-        <p class="card-text"><small class="text-muted"></small></p>
-        <a href="{{url_for('productinfo')}}">
+        <h5 class="card-title font-bold ">{{ mata[1] }}</h5>
+        <p class="card-text"> price={{ mata[2] }}</p>
+        <p class="card-text"><small class="text-muted"> {{ mata[3] }}</small></p>
+        <a href="{{url_for('productinfo',var=mata[0])}}">
           <button class="btn btn-success  " type="button">ADD TO CART</button></a>
       </div>
     </div>
   
   <div class="card mx-8" >
-    <img src="static/fridge.jfif" class="card-img-top" style="height: 300px;" alt="fridge">
+    <img src="{{ tata[4] }}" class="card-img-top" style="height: 300px;" alt="fridge">
     <div class="card-body">
-      <h5 class="card-title font-bold">REFRIGERATOR</h5>
-      <p class="card-text"></p>
-      <p class="card-text"><small class="text-muted"></small></p>
-      <a href="{{url_for('productinfo')}}">
+      <h5 class="card-title font-bold">{{ tata[1] }}</h5>
+      <p class="card-text">price={{ tata[2] }}</p>
+      <p class="card-text"><small class="text-muted">{{ tata[3] }}</small></p>
+      <a href="{{url_for('productinfo',var=tata[0])}}">
         <button class="btn btn-success " type="button">ADD TO CART</button></a>
     </div>
   </div>

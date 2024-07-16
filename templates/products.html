@@ -5,17 +5,22 @@
   <div class="card mb-6 mx-11 my-11" style="max-width: 500px;">
     <div class="row g-0">
       <div class="col-md-6 ">
-        <img src="static/fridge.jfif" class="img-fluid rounded-start my-10 mx-10" style="width:900px ;" alt="...">
+        <img src="{{ user[4] }}" class="img-fluid rounded-start my-10 mx-10" style="width:900px ;" alt="...">
       </div>
       <div class="col-md-8">
         <div class="card-body">
-          <h5 class="card-title">Product NAme</h5>
-          <p class="card-text">This is a wider card with supporting text below as a natural lead-in to additional content. This content is a little bit longer.</p>
+          <h5 class="card-title">{{ user[1] }}</h5>
+          <p class="card-text"> {{ user[3] }}</p>
+          <p class="card-text"> PRICE={{user[2] }}</p>
           <p class="card-text my-11"><small class="text-muted font-extrabold">REVIEWS</small></p>
           <form class="d-flex py-7 px-12">
-            <input class="form-control me-2" type="text" placeholder="text" aria-label="text">
+            <input class="form-control me-2" type="text" placeholder="reviews..." aria-label="text">
             <button class="btn btn-outline-success my" type="submit">SUBMIT</button>
-          </form>
+            </form>
+            <div>
+              <button class="btn btn-success my-7" type="submit">ADD TO CART</button>
+            </div>
+          
         </div>
       </div>
     </div>

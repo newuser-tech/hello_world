@@ -9,7 +9,7 @@
     integrity="sha384-EVSTQN3/azprG1Anm3QDgpJLIm9Nao0Yz1ztcQTwFspd3yD65VohhpuuCOmLASjC" crossorigin="anonymous">
   <style>
     body {
-      background-image: url('static/backg.jfif');
+      background-image: url('static/this.jfif');
       background-size: cover; 
       background-repeat: no-repeat; 
     }
@@ -27,13 +27,18 @@
           <button class="btn btn-danger mx-5 rounded-xl" type="button">HOME</button></a>
         <button class="btn btn-danger mx-5 rounded-xl" data-bs-toggle="modal" data-bs-target="#Modal">ABOUT</button>
         
-        {% if session.get('name') %}
+        {% if session.get('name') or session.get('email') %}
           <a href="{{url_for('logout')}}">
             <button type="button" class="btn btn-danger mx-11">LOGOUT</button></a>
         {% else %}
           <a href="{{url_for('reg')}}">
             <button type="button" class="btn btn-danger mx-11">LOGIN</button></a>
         {% endif %}
+        {% if session.get('email') %}
+        <a href="{{url_for('crud')}}">
+          <button type="button" class="btn btn-danger mx-11">GO TO ADMIN PAGE</button></a>
+        {% endif %}  
+
       </div>
     </nav>
   </div>
@@ -55,24 +60,48 @@
     <div class="modal-dialog">
       <div class="modal-content">
         <div class="modal-header">
-          <h5 class="modal-title" id="ModalLabel">LOGIN OR REGISTER</h5>
+          <h5 class="modal-title" id="ModalLabel"> ABOUT PASAL</h5>
           <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
         </div>
         <div class="modal-body" style="background-color: #7d7d90;">
-          <h1 class="font-extrabold">ABOUT US</h1>
+          
           <div>
-            <p>Lorem ipsum dolor sit amet consectetur adipisicing elit. Tempore atque, saepe facilis quae, fugiat minus
-              perferendis dolores mollitia enim deserunt nemo quod cum praesentium, suscipit esse excepturi nesciunt dicta
-              a! Sunt in itaque excepturi autem! Atque a error porro consequatur! Corporis quidem debitis eveniet nulla
-              molestias laudantium nostrum id illum.</p>
+            <p class="font-serif">
+             <h4> Welcome to Pasal!</h4>
+              <br>
+              At Pasal, we believe that shopping should be more than just a transaction – it should be an experience. Founded with a passion for quality, diversity, and customer satisfaction, Pasal is your one-stop online destination for a curated selection of products that cater to your unique needs and desires.
+              <br>
+              Our Story
+              <br>
+              Pasal was born out of a simple idea: to create an online store that blends convenience with a personal touch. Our journey began with a desire to bring together the best of what the market has to offer, offering an unparalleled range of products from trusted brands and emerging names alike. From everyday essentials to unique finds, we are committed to providing our customers with an exceptional shopping experience.
+              <br>
+              Our Mission
+              <br>
+              Our mission at Pasal is to make shopping easy, enjoyable, and fulfilling. We are dedicated to:
+              <br>
+              Quality: Offering products that meet high standards of quality and durability.<br>
+              Variety: Providing a diverse range of items to cater to different tastes and needs.<br>
+              Customer Service: Ensuring that every interaction with our store is pleasant and satisfying.<br>
+              Sustainability: Supporting sustainable practices and products that are kind to the planet.<br>
+              What Sets Us Apart<br>
+              Curated Selection: Our team meticulously selects each product to ensure it meets our standards of quality and value. We take pride in offering a diverse range of items that you won’t find anywhere else.
+              <br> Customer-Centric Approach: Your satisfaction is our top priority. We are here to assist you at every step of your shopping journey, from finding the perfect product to handling any post-purchase queries.
+              <br>Innovative Solutions: We embrace technology and innovation to enhance your shopping experience, offering user-friendly features and secure transactions.
+              <br>Join the Pasal Community
+              <br> We invite you to explore our store and discover the variety of products we offer. Whether you’re searching for the latest trends, timeless classics, or something truly unique, Pasal is here to make your shopping experience enjoyable and memorable.
+              
+              <br>Stay connected with us through our newsletter and social media channels for updates, special offers, and more.
+              
+              <br>Thank you for choosing Pasal. We look forward to serving you!</p>
           </div>
-          <div class="font-extrabold mx-14">
+          <div class="font-extrabold">
             <h1>CONTACT US</h1>
+            <p class="font-bold"> Mail us at:pasal1234@gmail.com <br> phone no : 9844090278</p>
           </div>
         </div>
         <div class="modal-footer">
           <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
-          <button type="button" class="btn btn-primary">Save changes</button>
+          
         </div>
       </div>
     </div>

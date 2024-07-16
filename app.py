@@ -29,14 +29,22 @@ def db_conn():
 
     return conn
 
-@app.route("/")
+@app.route("/" , methods=['GET', 'POST'])
 def hello_world():
-    return render_template('index.html')
+    conn=db_conn()
+    cur=conn.cursor()
+    cur.execute('select * from products where product_id =%s',(1,))
+    mata=cur.fetchone()
+    cur.execute('select * from products where product_id =%s',(2,))
+    data=cur.fetchone()
+    cur.execute('select * from products where product_id =%s',(3,))
+    tata=cur.fetchone()
+    return render_template('index.html',mata=mata,data=data,tata=tata)
+     
 
 @app.route('/register', methods=['GET', 'POST'])
-@app.route('/register', methods=['GET', 'POST'])
 def reg():
-    form = RegistrationForm()  # Use form here
+    form = RegistrationForm() 
 
     if form.validate_on_submit():
         name = form.name.data
@@ -96,7 +104,7 @@ def login():
             if bcrypt.check_password_hash(stored_hash, password):
                 session["name"] = email
                 flash("Logged in successfully!", 'success')
-                return redirect(url_for('productinfo'))
+                return redirect(url_for('hello_world'))
             else:
                 flash("Login failed. Check your email and password and try again.", 'danger')
         else:
@@ -106,14 +114,24 @@ def login():
 
 @app.route('/productinfo', methods=['GET', 'POST'])
 def productinfo():
-    if not session.get("name"):
+    if not session.get("name") and not session.get("email"):
         return redirect(url_for('login'))
-    return render_template('products.html')
+    variable = request.args.get('var')
+    conn= db_conn()
+    cur= conn.cursor()
+    cur.execute('select * from products where product_id =%s',(variable,))
+    user=cur.fetchone()
+    cur.close()
+    return render_template('products.html',user=user)
+     
+
+    
 
 @app.route('/logout', methods=['GET', 'POST'])
 def logout():
     session.pop('name', None)
-    flash("Logged out successfully!", 'success')
+    session.pop('email', None)
+    flash(f"Logged out successfully!", 'success')
     return redirect(url_for('hello_world'))
 @app.route('/adminlogin',methods=['GET','POST'])
 def admin():
@@ -133,7 +151,7 @@ def admin():
         if user:
           stored_hash=user[2]
           if bcrypt.check_password_hash(stored_hash, password):
-              session["name"]=email
+              session["email"]=email
               flash("Logged in successfully!", 'success')
               return redirect(url_for('crud'))
           else:
@@ -145,6 +163,8 @@ def admin():
 
 @app.route('/adminpanel',methods=['GET','POST'])
 def crud():
+    if not session.get("email"):
+        return redirect(url_for('login'))
     return render_template('adminpage.html')
 
               
