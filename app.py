@@ -1,7 +1,7 @@
 from flask import Flask, render_template, redirect, url_for, flash, session, request
 import psycopg2
 from flask_bcrypt import Bcrypt
-from forms import RegistrationForm, loginform,adminloginform
+from forms import RegistrationForm, loginform,adminloginform,searchform
 from flask_session import Session
 from bac import register_routes
 
@@ -33,13 +33,22 @@ def db_conn():
 def hello_world():
     conn=db_conn()
     cur=conn.cursor()
+    search_results=[]
+    form=searchform()
+    bcr=form.var.data
     cur.execute('select * from products where product_id =%s',(1,))
     mata=cur.fetchone()
     cur.execute('select * from products where product_id =%s',(2,))
     data=cur.fetchone()
     cur.execute('select * from products where product_id =%s',(3,))
     tata=cur.fetchone()
-    return render_template('index.html',mata=mata,data=data,tata=tata)
+    pattern = f'%{bcr}%'
+    cur.execute('SELECT * FROM products WHERE name ILIKE %s', (pattern,))
+
+    search_results=cur.fetchall()
+
+
+    return render_template('index.html',mata=mata,data=data,tata=tata,result=search_results,form=form,bcr=bcr)
      
 
 @app.route('/register', methods=['GET', 'POST'])

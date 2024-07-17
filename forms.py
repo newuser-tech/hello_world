@@ -26,7 +26,12 @@ class insertproduct(FlaskForm):
     price=DecimalField('PRICE',validators=[DataRequired()]) 
     description=StringField('Description',validators=[DataRequired()])
     photo=StringField('PHOTO LINK',validators=[DataRequired()])
-    submit=SubmitField('ADD PRODUCT')  
+    submit=SubmitField('ADD PRODUCT')
+class searchform(FlaskForm):
+    var=StringField('')
+    submit=SubmitField('SEARCH')
+    
+          
 
     
 

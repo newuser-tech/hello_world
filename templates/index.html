@@ -1,11 +1,44 @@
-{%extends "layout.html" %}
+
+{% extends "layout.html" %}
 {% block content %}
-  <div >
-    <form class="d-flex py-10 px-12">
-      <input class="form-control me-2" type="search" placeholder="Search" aria-label="Search">
-      <button class="btn btn-outline-success my" type="submit">Search</button>
+  <div class="container-fluid">
+    <form class="d-flex py-10 px-12" method="post" action="{{ url_for('hello_world') }}">
+      
+      {{ form.hidden_tag() }}
+      <div class="w-100">
+        {{ form.var.label(class="font-extrabold") }}
+        {{ form.var(class="form-control form-control-lg") }}
+        {% if form.var.errors %}
+        <ul class="text-danger">
+          {% for error in form.var.errors %}
+          <li>{{ error }}</li>
+          {% endfor %}
+        </ul>
+        {% endif %}
+        
+        {{ form.submit(class="btn btn-outline-success mt-2", type='submit') }}
+      </div>
+      
     </form>
+    <div class="bg-light py-3 mt-3">
+      {% if result %}
+        <h2>Results:</h2>
+        {% for results in result %}
+        <ul>
+            <li> product_name={{ results[1] }}</li>
+            <br>
+            <li>product_price={{ results[2]  }}</li>
+            <br>
+            <li>{{ results[3] }}</li>
+          
+        </ul>
+        {% endfor %}
+      {% elif bcr %}
+        <p>No results found for "{{ bcr }}"</p>
+      {% endif %}
+    </div>
   </div>
+
 
   <div class="flex justify-end">
     <button class="btn btn-success rounded-xl mx-5 my-8 " type="button">YOUR CART</button>
