@@ -54,7 +54,18 @@
         {% endif %}
     </div>
   
-  
+    <div class="mb-3 w-72 justify-center form-group">
+      {{ form.quantity.label(for="pass",class='font-extrabold') }}
+      {{ form.quantity(id="pass", class="form-label form-control") }}
+      {% if form.quantity.errors %}
+      <ul>
+        {% for error in form.quantity.errors %}
+        <li>{{ error }}</li>
+        {% endfor %}
+      </ul>
+      {% endif %}
+    </div>
+
   
         {{ form.submit(class="btn btn-success", type='submit') }}
       

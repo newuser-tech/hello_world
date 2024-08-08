@@ -1,0 +1,44 @@
+{% extends 'layout.html' %}
+{% block content %}
+<div>
+    <div style="background-color: aqua;">
+        <form class="container justify-items-center mx-5 " method="post" action="{{ url_for('select') }}">
+            {{ form.hidden_tag() }}
+            <div class="mb-3 w-72 justify-center">
+                {{ form.table.label(class="font-extrabold") }}
+                {{ form.table(class="form-control my-7") }}
+                {% if form.table.errors %}
+                <ul class="text-danger">
+                    {% for error in form.table.errors %}
+                    <li>{{ error }}</li>
+                    {% endfor %}
+                </ul>
+                {% endif %}
+            </div>
+            <div>
+                {{ form.submit(class="btn btn-success", type='submit') }}
+            </div>
+        </form>
+    </div>
+    <div>
+        <table class="table">
+            <thead>
+                <tr>
+                    {% for column in columns %}
+                    <th scope="col">{{ column }}</th>
+                    {% endfor %}
+                </tr>
+            </thead>
+            <tbody>
+                {% for row in user %}
+                <tr>
+                    {% for col in row %}
+                    <td>{{ col }}</td>
+                    {% endfor %}
+                </tr>
+                {% endfor %}
+            </tbody>
+        </table>
+    </div>
+</div>
+{% endblock content %}

@@ -1,0 +1,53 @@
+{% extends 'layout.html' %}
+{% block content %}
+{
+    <div  class="form-group mx-auto my-11 py-3" style="width: 500px; height: auto; border: 2px solid #000; border-radius: 15px; box-shadow: 0 4px 8px rgba(0,0,0,0.2);">
+  
+        <form class="container justify-items-center  mx-24 " , method="post" , action="{{url_for('bac.delete')}}">
+          {{ bform.hidden_tag() }}
+           <h1 class="font-extrabold my-7 mx-20"style="font-size: 30px;">LOGIN</h1>
+          <div class="mb-3 w-72 justify-center  ">
+            {{ bform.column.label(for="Hello",class="font-extrabold ") }}
+            {{ bform.column(id="Hello", class="form-label f form-control my-7") }}
+            {% if bform.column.errors %}
+            <ul>
+              {% for error in bform.column.errors %}
+              <li>{{ error }}</li>
+              {% endfor %}
+            </ul>
+            {% endif %}
+          </div>
+          <div class="mb-3 w-72 justify-center my-11">
+            {{ bform.description.label(for="apassword",class="font-extrabold") }}
+            {{ bform.description(id="aassword_confirm", class="form-label  form-control") }}
+            {% if bform.description.errors %}
+            <ul>
+              {% for error in bform.description.errors %}
+              <li>{{ error }}</li>
+              {% endfor %}
+            </ul>
+            {% endif %}
+          </div>
+          <div class="mb-3 w-72 justify-center  ">
+            {{ bform.quan.label(for="Hello",class="font-extrabold ") }}
+            {{ bform.quan(id="Hello", class="form-label f form-control my-7") }}
+            {% if bform.quan.errors %}
+            <ul>
+              {% for error in bform.quan.errors %}
+              <li>{{ error }}</li>
+              {% endfor %}
+            </ul>
+            {% endif %}
+          </div>
+          <div>
+            {{ bform.submit(class="btn btn-success", type='submit') }}
+            
+          </div>
+        </form>
+      
+      </div>
+      {% endblock content %}
+      
+      
+      
+      

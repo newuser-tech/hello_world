@@ -1,9 +1,10 @@
 from flask import Flask, render_template, redirect, url_for, flash, session, request
 import psycopg2
 from flask_bcrypt import Bcrypt
-from forms import RegistrationForm, loginform,adminloginform,searchform
+from forms import RegistrationForm, loginform,adminloginform,searchform,reviewsform,selectionform
 from flask_session import Session
 from bac import register_routes
+from psycopg2 import sql
 
 app = Flask(__name__)
 app.config['SECRET_KEY'] = "c7bb9002b1c215c9f37e6f741c122c11"
@@ -36,19 +37,38 @@ def hello_world():
     search_results=[]
     form=searchform()
     bcr=form.var.data
-    cur.execute('select * from products where product_id =%s',(1,))
+    patt='%%'
+    a=[]
+    cur.execute('select * from products where name ilike %s',(patt,))
+    a=cur.fetchall()
+    if a:
+      b=a[0][0]
+    else:
+        b=0
+    
+    cur.execute('select * from products where product_id =%s',(b,))
     mata=cur.fetchone()
-    cur.execute('select * from products where product_id =%s',(2,))
+    cur.execute('select * from products where product_id =%s',(b+1,))
     data=cur.fetchone()
-    cur.execute('select * from products where product_id =%s',(3,))
+    cur.execute('select * from products where product_id =%s',(b+2,))
     tata=cur.fetchone()
-    pattern = f'%{bcr}%'
-    cur.execute('SELECT * FROM products WHERE name ILIKE %s', (pattern,))
+    cur.execute('select * from products where product_id =%s',(b+3,))
+    aata=cur.fetchone()
+    cur.execute('select * from products where product_id =%s',(b+4,))
+    rata=cur.fetchone()
+    cur.execute('select * from products where product_id =%s',(b+5,))
+    lata=cur.fetchone()
+    if bcr != '' :
+       pattern = f'{bcr}%'
+       cur.execute('SELECT * FROM products WHERE name ILIKE %s', (pattern,))
 
-    search_results=cur.fetchall()
+       search_results=cur.fetchall()
+    
+    else:
+        flash("Please enter item you want to search:",'danger')   
 
 
-    return render_template('index.html',mata=mata,data=data,tata=tata,result=search_results,form=form,bcr=bcr)
+    return render_template('index.html',mata=mata,data=data,tata=tata,result=search_results,form=form,bcr=bcr,aata=aata,lata=lata,rata=rata)
      
 
 @app.route('/register', methods=['GET', 'POST'])
@@ -92,10 +112,15 @@ def reg():
         flash('Registration successful!', 'success')
         return redirect(url_for('reg'))
 
-    return render_template('login.html', form=form)  
-
+    return render_template('login.html', form=form) 
 @app.route('/login', methods=['GET', 'POST'])
 def login():
+    if  session.get("email"):
+        flash("already logged in as admin",'danger')
+    
+        return redirect(url_for('hello_world'))
+        
+    
     bform = loginform()
     if bform.validate_on_submit():
         email = bform.email.data
@@ -120,21 +145,63 @@ def login():
             flash("Login failed. Check your email and password and try again.", 'danger')
         
     return render_template('alogin.html', bform=bform)
-
 @app.route('/productinfo', methods=['GET', 'POST'])
 def productinfo():
     if not session.get("name") and not session.get("email"):
         return redirect(url_for('login'))
-    variable = request.args.get('var')
-    conn= db_conn()
-    cur= conn.cursor()
-    cur.execute('select * from products where product_id =%s',(variable,))
-    user=cur.fetchone()
-    cur.close()
-    return render_template('products.html',user=user)
-     
+    else:
+        form = reviewsform()
+        conn = db_conn()
+        cur = conn.cursor()
 
-    
+        product_id = request.args.get('var') or request.args.get('val')
+        user_email = session.get('name')
+
+        if not product_id:
+            flash("Product ID not provided", "danger")
+            return redirect(url_for('hello_world'))
+
+        cur.execute('SELECT * FROM customers WHERE email = %s', (user_email,))
+        customer = cur.fetchone()
+        if customer is None:
+            flash("Sorry, admin cannot enter this page", "danger")
+            return redirect(url_for('hello_world'))
+
+        customer_id = customer[3]  
+
+        # Fetch product details
+        cur.execute('SELECT * FROM products WHERE product_id = %s', (product_id,))
+        product = cur.fetchone()
+
+        if not product:
+            flash("Product not found", "danger")
+            return redirect(url_for('hello_world'))
+
+        # Fetch top 3 reviews for the product
+        cur.execute('SELECT r.review_id, r.customer_id, r.product_id, r.rating, r.comment, c.name '
+                    'FROM reviews r JOIN customers c ON r.customer_id = c.customer_id '
+                    'WHERE r.product_id = %s '
+                    'ORDER BY r.review_id LIMIT 3', (product_id,))
+        reviews = cur.fetchall()
+
+        avg_rating = 0
+        if reviews:
+            cur.execute('SELECT AVG(rating) FROM reviews WHERE product_id = %s', (product_id,))
+            avg_rating = cur.fetchone()[0]
+
+        if form.validate_on_submit() and session.get('name'):
+            review = form.review.data
+            rating = form.rating.data
+            cur.execute('INSERT INTO reviews (product_id, customer_id, rating, comment) VALUES (%s, %s, %s, %s)',
+                        (product_id, customer_id, rating, review))
+            conn.commit()
+            flash('Review submitted successfully', 'success')
+            return redirect(url_for('productinfo', var=product_id))
+
+        cur.close()
+        conn.close()
+
+    return render_template('products.html', user=product, form=form, reviews=reviews, avg=avg_rating)
 
 @app.route('/logout', methods=['GET', 'POST'])
 def logout():
@@ -144,6 +211,7 @@ def logout():
     return redirect(url_for('hello_world'))
 @app.route('/adminlogin',methods=['GET','POST'])
 def admin():
+    
     form=adminloginform()
     if form.validate_on_submit():
         name = form.name.data
@@ -173,8 +241,44 @@ def admin():
 @app.route('/adminpanel',methods=['GET','POST'])
 def crud():
     if not session.get("email"):
-        return redirect(url_for('login'))
+        return redirect(url_for('admin'))
     return render_template('adminpage.html')
+
+
+@app.route('/select', methods=['GET', 'POST'])
+def select():
+    form = selectionform()
+
+    if form.validate_on_submit():
+        table = form.table.data
+        conn = db_conn()
+        cur = conn.cursor()
+        
+        try:
+            # Validate table name
+            cur.execute("SELECT table_name FROM information_schema.tables WHERE table_schema = 'public' AND table_name = %s", (table,))
+            if not cur.fetchone():
+                raise ValueError("Table does not exist")
+
+            # Fetch data from the specified table and column names
+            query = sql.SQL("SELECT * FROM {}").format(sql.Identifier(table))
+            cur.execute(query)
+            user = cur.fetchall()
+            
+            # Fetch column names
+            columns = [desc[0] for desc in cur.description]
+        except Exception as e:
+            flash("Sorry! Table name does not exist in the database or an error occurred.", 'danger')
+            user = []
+            columns = []
+        finally:
+            cur.close()
+            conn.close()
+
+        return render_template('selection.html', form=form, columns=columns, user=user)
+    return render_template('selection.html', form=form, columns=[], user=[])
+
+
 
               
         
@@ -182,3 +286,9 @@ def crud():
 
 if __name__ == "__main__":
     app.run(debug=True, port=8001)
+
+
+              
+        
+
+

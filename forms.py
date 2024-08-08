@@ -1,5 +1,5 @@
 from flask_wtf import FlaskForm
-from wtforms import StringField,PasswordField,SubmitField,DecimalField
+from wtforms import StringField,PasswordField,SubmitField,DecimalField,IntegerField
 from wtforms.validators import DataRequired,Length,Email,EqualTo
 
 
@@ -26,10 +26,25 @@ class insertproduct(FlaskForm):
     price=DecimalField('PRICE',validators=[DataRequired()]) 
     description=StringField('Description',validators=[DataRequired()])
     photo=StringField('PHOTO LINK',validators=[DataRequired()])
+    quantity=IntegerField('Quantity',validators=[DataRequired()])
     submit=SubmitField('ADD PRODUCT')
 class searchform(FlaskForm):
     var=StringField('')
     submit=SubmitField('SEARCH')
+class deleteproduct(FlaskForm):
+    description=StringField('Description',validators=[DataRequired()])
+    column=StringField('Item name',validators=[DataRequired()])
+    quan=IntegerField('Quantity',validators=[DataRequired()])
+    submit=SubmitField('DELETE')
+class reviewsform(FlaskForm):
+    review=StringField('Enter your review',validators=[DataRequired()])
+    rating=DecimalField('Rating')
+    submit=SubmitField('SUMBIT')
+class selectionform(FlaskForm) :
+    table=StringField('Table Name',validators=[DataRequired()]) 
+    submit=SubmitField ("Display") 
+
+        
     
           
 

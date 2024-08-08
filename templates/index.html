@@ -1,89 +1,153 @@
-
 {% extends "layout.html" %}
 {% block content %}
-  <div class="container-fluid">
-    <form class="d-flex py-10 px-12" method="post" action="{{ url_for('hello_world') }}">
-      
-      {{ form.hidden_tag() }}
-      <div class="w-100">
-        {{ form.var.label(class="font-extrabold") }}
-        {{ form.var(class="form-control form-control-lg") }}
-        {% if form.var.errors %}
-        <ul class="text-danger">
-          {% for error in form.var.errors %}
-          <li>{{ error }}</li>
-          {% endfor %}
-        </ul>
-        {% endif %}
-        
-        {{ form.submit(class="btn btn-outline-success mt-2", type='submit') }}
-      </div>
-      
-    </form>
-    <div class="bg-light py-3 mt-3">
-      {% if result %}
-        <h2>Results:</h2>
-        {% for results in result %}
-        <ul>
-            <li> product_name={{ results[1] }}</li>
-            <br>
-            <li>product_price={{ results[2]  }}</li>
-            <br>
-            <li>{{ results[3] }}</li>
-          
-        </ul>
+<div class="container-fluid">
+  <form class="d-flex py-10 px-12" method="post" action="{{ url_for('hello_world') }}">
+
+    {{ form.hidden_tag() }}
+    <div class="w-100">
+      {{ form.var.label(class="font-extrabold") }}
+      {{ form.var(class="form-control form-control-lg") }}
+      {% if form.var.errors %}
+      <ul class="text-danger">
+        {% for error in form.var.errors %}
+        <li>{{ error }}</li>
         {% endfor %}
-      {% elif bcr %}
-        <p>No results found for "{{ bcr }}"</p>
+      </ul>
       {% endif %}
+
+      {{ form.submit(class="btn btn-outline-success mt-2", type='submit') }}
+    </div>
+
+  </form>
+
+  {% if result %}
+  <h2 class="font-extrabold"> Resultts:</h2>
+  {% for results in result %}
+  <div class="font-bold container-fluid  mx-7 my-5"
+    style="width: 1000px; height: auto; border: 2px solid #000; border-radius: 15px; box-shadow: 0 4px 8px rgba(0,0,0,0.2); background-color: rgb(206, 207, 203);">
+
+    <ul>
+
+
+      <div>
+        <li class="focus-visible:"> product_name={{ results[1] }}</li>
+        <br>
+        <li>product_price={{ results[2] }}</li>
+        <br>
+        <li>{{ results[3] }}</li>
+        <li>quantity available={{results[5]}}</li>
+        <a href="{{url_for('productinfo',val=results[0])}}">
+          <li class="mx-80 "><img src="{{results[4]}}" width="130px" height="130px"> </li>
+        </a>
+        </div>
+
+    </ul>
+  </div>
+</div>
+{% endfor %}
+{% elif bcr %}
+<p>No results found for "{{ bcr }}"</p>
+{% endif %}
+</div>
+</div>
+
+
+<div class="flex justify-end">
+  <button class="btn btn-success rounded-xl mx-5 my-8 " type="button">YOUR CART</button>
+</div>
+<div class="card-group mx-8 " style="height: 300px; width: auto;">
+  <div class="card mx-8">
+    <img src="{{ data[4] }}" class="card-img-top " style="height: 100px; width:auto" alt="TELEVISION">
+    <div class="card-body ">
+      <h3 class="card-title font-bold">{{ data[1] }}</h3>
+      <p class="card-text"> price={{ data[2] }}</p>
+      <p class="card-text"><small class="text-muted">{{ data[3] }}</small></p>
+      <p class="card-text"> <small class="muted"> Quantity available ={{ data[5] }}</small></p>
+
+
+
+
+      <a href="{{url_for('productinfo',var=data[0])}}">
+        <button class="btn btn-success" type="button">ADD TO CART</button></a>
+
+
+
+    </div>
+  </div>
+  <div class="card mx-8" style="height: 300px; width: auto;">
+    <img src="{{ mata[4] }}" class="card-img-top" style="height: 100px; width: auto;" alt="...">
+    <div class="card-body">
+      <h5 class="card-title font-bold ">{{ mata[1] }}</h5>
+      <p class="card-text"> price={{ mata[2] }}</p>
+      <p class="card-text"><small class="text-muted"> {{ mata[3] }}</small></p>
+      <p class="card-text"> <small class="muted"> Quantity available ={{ mata[5] }}</small></p>
+
+      <a href="{{url_for('productinfo',var=mata[0])}}">
+        <button class="btn btn-success  " type="button">ADD TO CART</button></a>
     </div>
   </div>
 
-
-  <div class="flex justify-end">
-    <button class="btn btn-success rounded-xl mx-5 my-8 " type="button">YOUR CART</button>
-  </div>
-  <div class="card-group mx-8" >
-    <div class="card mx-8"  >
-      <img src="{{ data[4] }}" class="card-img-top " style="height: 300px;" alt="TELEVISION">
-      <div class="card-body ">
-        <h3 class="card-title font-bld">{{ data[1] }}</h3>
-        <p class="card-text"> price={{ data[2] }}</p>
-        <p class="card-text"><small class="text-muted">{{ data[3] }}</small></p>
-      
-           
-    
-           <a href="{{url_for('productinfo',var=data[0])}}">
-            <button class="btn btn-success" type="button">ADD TO CART</button></a>
-        
-          
-             
-      </div>
-    </div>
-    <div class="card mx-8">
-      <img src="{{ mata[4] }}" class="card-img-top" style="height: 300px;" alt="...">
-      <div class="card-body">
-        <h5 class="card-title font-bold ">{{ mata[1] }}</h5>
-        <p class="card-text"> price={{ mata[2] }}</p>
-        <p class="card-text"><small class="text-muted"> {{ mata[3] }}</small></p>
-        <a href="{{url_for('productinfo',var=mata[0])}}">
-          <button class="btn btn-success  " type="button">ADD TO CART</button></a>
-      </div>
-    </div>
-  
-  <div class="card mx-8" >
-    <img src="{{ tata[4] }}" class="card-img-top" style="height: 300px;" alt="fridge">
+  <div class="card mx-8" style="height: 300px; width: auto;">
+    <img src="{{ tata[4] }}" class="card-img-top" style="height: 100px; width: auto;" alt="fridge">
     <div class="card-body">
       <h5 class="card-title font-bold">{{ tata[1] }}</h5>
       <p class="card-text">price={{ tata[2] }}</p>
       <p class="card-text"><small class="text-muted">{{ tata[3] }}</small></p>
+      <p class="card-text"> <small class="muted"> Quantity available ={{ tata[5] }}</small></p>
+
       <a href="{{url_for('productinfo',var=tata[0])}}">
         <button class="btn btn-success " type="button">ADD TO CART</button></a>
     </div>
   </div>
+
+  <div class="card mx-8" style="height: 300px; width: auto;">
+    <img src="{{ aata[4] }}" class="card-img-top " style="height: 100px; width: auto;" alt="TELEVISION">
+    <div class="card-body ">
+      <h3 class="card-title font-bold">{{ aata[1] }}</h3>
+      <p class="card-text"> price={{ aata[2] }}</p>
+      <p class="card-text"><small class="text-muted">{{ aata[3] }}</small></p>
+      <p class="card-text"> <small class="muted"> Quantity available ={{ aata[5] }}</small></p>
+
+      <a href="{{url_for('productinfo',var=aata[0])}}">
+        <button class="btn btn-success" type="button">ADD TO CART</button></a>
+
+
+    </div>
   </div>
+
+  <div class="card mx-8" style="height: 300px; width: auto;">
+    <img src="{{ rata[4] }}" class="card-img-top " style="height: 100px; width: auto;" alt="TELEVISION">
+    <div class="card-body ">
+      <h3 class="card-title font-bold">{{ rata[1] }}</h3>
+      <p class="card-text"> price={{ rata[2] }}</p>
+      <p class="card-text"><small class="text-mutetext-d">{{ rata[3] }}</small></p>
+      <p class="card-text"> <small class="muted"> Quantity available ={{ rata[5] }}</small></p>
+
+
+
+      <a href="{{url_for('productinfo',var=rata[0])}}">
+        <button class="btn btn-success" type="button">ADD TO CART</button></a>
+    </div>
   </div>
+
+  <div class="card mx-8" style="height: 300px; width: auto;">
+    <img src="{{ lata[4] }}" class="card-img-top " style="height: 100px; width: auto;" alt="TELEVISION">
+    <div class="card-body ">
+      <h3 class="card-title font-bold">{{ lata[1] }}</h3>
+      <p class="card-text"> price={{ lata[2] }}</p>
+      <p class="card-text"><small class="text-muted">{{ lata[3] }}</small></p>
+      <p class="card-text"> <small class="muted"> Quantity available ={{ lata[5] }}</small></p>
+
+
+
+
+      <a href="{{url_for('productinfo',var=lata[0])}}">
+        <button class="btn btn-success" type="button">ADD TO CART</button></a>
+
+    </div>
+
   </div>
-  
-          
+</div>
+
+
 {% endblock content%}
