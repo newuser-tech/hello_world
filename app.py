@@ -6,7 +6,7 @@ from flask_session import Session
 from bac import register_routes
 from psycopg2 import sql
 
-app = Flask(__name__ ,static_folder='static')
+app = Flask(__name__ ,static_folder="static")
 app.config['SECRET_KEY'] = "c7bb9002b1c215c9f37e6f741c122c11"
 app.config["SESSION_PERMANENT"] = False
 app.config["SESSION_TYPE"] = "filesystem"
@@ -37,14 +37,14 @@ def hello_world():
     search_results=[]
     form=searchform()
     bcr=form.var.data
-    patt='%%'
+    
     a=[]
-    cur.execute('select * from products where name ilike %s',(patt,))
+    cur.execute('SELECT * FROM products ORDER BY product_id ASC')
     a=cur.fetchall()
+    
     if a:
       b=a[0][0]
-    else:
-        b=0
+    
     
     cur.execute('select * from products where product_id =%s',(b,))
     mata=cur.fetchone()
@@ -155,7 +155,8 @@ def productinfo():
         conn = db_conn()
         cur = conn.cursor()
 
-        product_id = request.args.get('var') or request.args.get('val')
+        product_id = request.args.get('var')
+        form_type = request.args.get('form_type')  # Check which form was submitted
         user_email = session.get('name')
         quant = 0
 
@@ -169,7 +170,7 @@ def productinfo():
             flash("Sorry, admin cannot enter this page", "danger")
             return redirect(url_for('hello_world'))
 
-        customer_id = customer[3]
+        customer_id = customer[0]
 
         # Fetch product details
         cur.execute('SELECT * FROM products WHERE product_id = %s', (product_id,))
@@ -191,7 +192,7 @@ def productinfo():
             cur.execute('SELECT AVG(rating) FROM reviews WHERE product_id = %s', (product_id,))
             avg_rating = cur.fetchone()[0]
 
-        if 'submit_review' in request.form and form.validate_on_submit() and session.get('name'):
+        if form_type == 'review' and form.validate_on_submit():
             review = form.review.data
             rating = form.rating.data
             cur.execute('INSERT INTO reviews (product_id, customer_id, rating, comment) VALUES (%s, %s, %s, %s)',
@@ -200,11 +201,15 @@ def productinfo():
             flash('Review submitted successfully', 'success')
             return redirect(url_for('productinfo', var=product_id))
 
-        if bform.validate_on_submit():
+        elif form_type == 'quantity' and bform.validate_on_submit():
             quant = bform.quant.data
-           
+            flash(f'Quantity {quant} selected.', 'success')
+            # return redirect(url_for('productinfo', var=product_id))
 
-    return render_template('products.html', user=product, form=form, reviews=reviews, avg=avg_rating, bform=bform, quant=quant)
+        cur.close()
+        conn.close()
+
+        return render_template('products.html', user=product, form=form, reviews=reviews, avg=avg_rating, bform=bform, quant=quant)
 
 
 @app.route('/logout', methods=['GET', 'POST'])
@@ -301,7 +306,7 @@ def add_to_cart():
             flash('User not found. Please log in again.', 'danger')
             return redirect(url_for('login'))
 
-        customer_id = customer[3]
+        customer_id = customer[0]
 
         cur.execute('SELECT * FROM products WHERE product_id=%s', (product_id,))
         product = cur.fetchone()
@@ -346,8 +351,8 @@ def your_cart():
         flash("Customer not found.", 'danger')
         return redirect(url_for('hello_world'))
 
-    customer_id = customer[3]
-    customer_name = customer[0]
+    customer_id = customer[0]
+    customer_name = customer[1]
 
     cur.execute('''
         SELECT p.product_id, p.name, p.price, pl.quantity
@@ -435,7 +440,8 @@ def vieworders():
 
 
 if __name__ == "__main__":
-    app.run()
+    # app.run()
+    app.run(debug=True,port=8001)
 
 
 
