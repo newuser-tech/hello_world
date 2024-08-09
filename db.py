@@ -83,8 +83,7 @@ hashed_password2 = bcrypt.generate_password_hash(password2).decode('utf-8')
 #         admin_password VARCHAR(255)
 #     );
    
-cur.execute("insert into admins (admin_name,admin_email,admin_password) values (%s,%s,%s)",('Roshan singh saud','roshansinghsaud2001@gmail.com',hashed_password2))
-
+cur.execute("update products set photo=%s where product_id=%s",('rice.jfif',2,))
 conn.commit()
 cur.close()
 conn.close()
