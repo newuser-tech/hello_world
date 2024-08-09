@@ -6,7 +6,7 @@ from flask_session import Session
 from bac import register_routes
 from psycopg2 import sql
 
-app = Flask(__name__)
+app = Flask(__name__ ,static_folder='static')
 app.config['SECRET_KEY'] = "c7bb9002b1c215c9f37e6f741c122c11"
 app.config["SESSION_PERMANENT"] = False
 app.config["SESSION_TYPE"] = "filesystem"
