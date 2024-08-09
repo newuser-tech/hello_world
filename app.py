@@ -1,7 +1,7 @@
 from flask import Flask, render_template, redirect, url_for, flash, session, request
 import psycopg2
 from flask_bcrypt import Bcrypt
-from forms import RegistrationForm, loginform,adminloginform,searchform,reviewsform,selectionform
+from forms import RegistrationForm, loginform,adminloginform,searchform,reviewsform,selectionform,quantityform
 from flask_session import Session
 from bac import register_routes
 from psycopg2 import sql
@@ -151,11 +151,13 @@ def productinfo():
         return redirect(url_for('login'))
     else:
         form = reviewsform()
+        bform = quantityform()
         conn = db_conn()
         cur = conn.cursor()
 
         product_id = request.args.get('var') or request.args.get('val')
         user_email = session.get('name')
+        quant = 0
 
         if not product_id:
             flash("Product ID not provided", "danger")
@@ -167,7 +169,7 @@ def productinfo():
             flash("Sorry, admin cannot enter this page", "danger")
             return redirect(url_for('hello_world'))
 
-        customer_id = customer[3]  
+        customer_id = customer[3]
 
         # Fetch product details
         cur.execute('SELECT * FROM products WHERE product_id = %s', (product_id,))
@@ -189,7 +191,7 @@ def productinfo():
             cur.execute('SELECT AVG(rating) FROM reviews WHERE product_id = %s', (product_id,))
             avg_rating = cur.fetchone()[0]
 
-        if form.validate_on_submit() and session.get('name'):
+        if 'submit_review' in request.form and form.validate_on_submit() and session.get('name'):
             review = form.review.data
             rating = form.rating.data
             cur.execute('INSERT INTO reviews (product_id, customer_id, rating, comment) VALUES (%s, %s, %s, %s)',
@@ -198,10 +200,12 @@ def productinfo():
             flash('Review submitted successfully', 'success')
             return redirect(url_for('productinfo', var=product_id))
 
-        cur.close()
-        conn.close()
+        if bform.validate_on_submit():
+            quant = bform.quant.data
+           
 
-    return render_template('products.html', user=product, form=form, reviews=reviews, avg=avg_rating)
+    return render_template('products.html', user=product, form=form, reviews=reviews, avg=avg_rating, bform=bform, quant=quant)
+
 
 @app.route('/logout', methods=['GET', 'POST'])
 def logout():
@@ -277,11 +281,157 @@ def select():
 
         return render_template('selection.html', form=form, columns=columns, user=user)
     return render_template('selection.html', form=form, columns=[], user=[])
+@app.route('/addtocart', methods=['GET', 'POST'])
+def add_to_cart():
+    product_id = request.args.get('user')  # Should be the product ID
+    quantity = int(request.args.get('quant'))  # Should be the quantity selected
+
+    if not product_id or not quantity:
+        flash('Invalid product or quantity.', 'danger')
+        return redirect(url_for('hello_world'))
+
+    conn = db_conn()
+    cur = conn.cursor()
+
+    try:
+        cur.execute('SELECT * FROM customers WHERE email=%s', (session.get('name'),))
+        customer = cur.fetchone()
+
+        if not customer:
+            flash('User not found. Please log in again.', 'danger')
+            return redirect(url_for('login'))
+
+        customer_id = customer[3]
+
+        cur.execute('SELECT * FROM products WHERE product_id=%s', (product_id,))
+        product = cur.fetchone()
+
+        if not product:
+            flash('Product not found.', 'danger')
+            return redirect(url_for('hello_world'))
+
+        if product[5] >= quantity:
+            cur.execute('INSERT INTO product_list(product_id, quantity, customer_id) VALUES (%s, %s, %s)',
+                        (product_id, quantity, customer_id))
+            cur.execute('UPDATE products SET quantity=quantity-%s WHERE product_id=%s',
+                        (quantity, product_id))
+            conn.commit()
+            flash('Item added to your cart successfully', 'success')
+        else:
+            flash(f'Only {product[5]} items available. Please choose a lower quantity.', 'danger')
+
+    except Exception as e:
+        conn.rollback()
+        flash(f'Error adding item to cart: {str(e)}', 'danger')
+    finally:
+        cur.close()
+        conn.close()
+
+    return redirect(url_for('your_cart'))
+    
+
+@app.route('/your_cart', methods=['GET', 'POST'])
+def your_cart():
+    if not session.get("name"):
+        flash("Please log in to view your cart.", 'danger')
+        return redirect(url_for('login'))
+
+    conn = db_conn()
+    cur = conn.cursor()
+
+    cur.execute('SELECT * FROM customers WHERE email=%s', (session.get('name'),))
+    customer = cur.fetchone()
+
+    if not customer:
+        flash("Customer not found.", 'danger')
+        return redirect(url_for('hello_world'))
+
+    customer_id = customer[3]
+    customer_name = customer[0]
+
+    cur.execute('''
+        SELECT p.product_id, p.name, p.price, pl.quantity
+        FROM product_list pl
+        JOIN products p ON pl.product_id = p.product_id
+        WHERE pl.customer_id = %s
+    ''', (customer_id,))
+    
+    cart_items = cur.fetchall()
+    total_amount = sum(item[2] * item[3] for item in cart_items)
+
+    if request.method == 'POST':
+        if cart_items:
+            try:
+                # Insert a new order and get the order ID
+                cur.execute('''
+                    INSERT INTO orders (customer_id, total_amount)
+                    VALUES (%s, %s)
+                    RETURNING order_id
+                ''', (customer_id, total_amount))
+                order_id = cur.fetchone()[0]
+                
+                # Insert each cart item into the order_line table
+                for item in cart_items:
+                    product_id = item[0]
+                    price_at_order = item[2]
+                    quantity = item[3]
+
+                    cur.execute('''
+                        INSERT INTO order_line (order_id, product_id, quantity, price_at_order)
+                        VALUES (%s, %s, %s, %s)
+                    ''', (order_id, product_id, quantity, price_at_order))
+
+                # Clear the product_list table for this customer
+                cur.execute('DELETE FROM product_list WHERE customer_id = %s', (customer_id,))
+
+                conn.commit()
+                flash("Order placed successfully!", 'success')
+
+            except Exception as e:
+                conn.rollback()
+                flash(f"Error placing order: {str(e)}", 'danger')
+
+        else:
+            flash("Your cart is empty.", 'danger')
+
+        cur.close()
+        conn.close()
+        return redirect(url_for('hello_world'))
+
+    cur.close()
+    conn.close()
+
+    return render_template('display.html', customer_name=customer_name, cart_items=cart_items, total_amount=total_amount)
 
 
+    return render_template('display.html', customer_name=customer_name, cart_items=cart_items, total_amount=total_amount)
+@app.route('/vieworders', methods=['GET', 'POST'])
+def vieworders():
+    if not session.get("email"):  # Check if admin is logged in
+        flash("Please log in as an admin to view orders.", 'danger')
+        return redirect(url_for('admin'))
 
-              
-        
+    conn = db_conn()
+    cur = conn.cursor()
+
+    # Fetch customer details, order details, and associated product details
+    cur.execute('''
+        SELECT c.name, c.phone_no, o.order_id, p.name as product_name, p.price, ol.quantity, (p.price * ol.quantity) as product_total
+        FROM customers c
+        JOIN orders o ON c.customer_id = o.customer_id
+        JOIN order_line ol ON o.order_id = ol.order_id
+        JOIN products p ON ol.product_id = p.product_id
+        ORDER BY o.order_id
+    ''')
+
+    orders = cur.fetchall()
+
+    cur.close()
+    conn.close()
+
+    return render_template('view.html', orders=orders)
+
+
 
 
 if __name__ == "__main__":

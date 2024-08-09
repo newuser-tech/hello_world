@@ -3,8 +3,7 @@
 <div class="card mb-9  mx-72  my-11" style="width: 800px; height :600px;">
     <div class="row g-0">
         <div class="col-md-6">
-            <img src="{{ user[4] }}" class="img-fluid rounded-start my-2 mx-80" style="width:auto; height:250px;"
-                alt="...">
+            <img src="{{ user[4] }}" class="img-fluid rounded-start my-2 mx-80" style="width:auto; height:250px;" alt="...">
         </div>
         <div>
             <div class="card-body ,mx-0">
@@ -14,66 +13,79 @@
             </div>
             <div style="background-color: aqua;">
                 <div class="mx-6">
-
-
                     <p class=" my-11 font-extrabold"> Reviews for This product</p>
                     <h1 class=" text-muted font-extrabold"> Average Rating ={{ avg }}</h1>
                     <h2 class=" text-muted font-bold my-4"> Reviews by customers:</h2>
-
                     {% if reviews %}
                     {% for review in reviews %}
                     <div class="review my-4" style="border-radius: 4cm; border-color: black;">
                         <h3 class=" font-extrabold ">{{ review[5] }}</h3>
                         <p class=" text-muted font-bold mx-7">Rating: {{ review[3] }}</p>
                         <p class="mx-12">{{ review[4] }}</p>
-
-
-                        {% endfor %}
-                        {% else %}
-                        <h2>{{ ok }}</h2>
-                        {% endif %}
                     </div>
+                    {% endfor %}
+                    {% else %}
+                    <h2>{{ ok }}</h2>
+                    {% endif %}
                 </div>
                 <div style="background-color: aqua;">
-
-
-                  <form class="container justify-items-center mx-5 " method="post"
-                      action="{{ url_for('productinfo', var=user[0]) }}">
-                      {{ form.hidden_tag() }}
-                     <div class="mb-3 w-72 justify-center">
-                        {{ form.rating.label(class="font-extrabold") }}
-                        {{ form.rating(class="form-control my-7") }}
-                        {% if form.rating.errors %}
-                        <ul class="text-danger">
-                            {% for error in form.rating.errors %}
-                            <li>{{ error }}</li>
-                            {% endfor %}
-                        </ul>
-                        {% endif %}
+                    <form class="container justify-items-center mx-5" method="post" action="{{ url_for('productinfo', var=user[0]) }}">
+                        {{ form.hidden_tag() }}
+                        <div class="mb-3 w-72 justify-center">
+                            {{ form.rating.label(class="font-extrabold") }}
+                            {{ form.rating(class="form-control my-7") }}
+                            {% if form.rating.errors %}
+                            <ul class="text-danger">
+                                {% for error in form.rating.errors %}
+                                <li>{{ error }}</li>
+                                {% endfor %}
+                            </ul>
+                            {% endif %}
+                        </div>
+                        <div class="mb-3 w-72 justify-center my-4">
+                            {{ form.review.label(class="font-extrabold") }}
+                            {{ form.review(class="form-control") }}
+                            {% if form.review.errors %}
+                            <ul class="text-danger">
+                                {% for error in form.review.errors %}
+                                <li>{{ error }}</li>
+                                {% endfor %}
+                            </ul>
+                            {% endif %}
+                        </div>
+                        <div>
+                            {{ form.submit(class="btn btn-success", type='submit') }}
+                        </div>
+                    </form>
+                    <div class="my-7">
+                        <form class="container justify-items-center mx-5" method="post" action="{{ url_for('productinfo', var=user[0]) }}">
+                            {{ bform.hidden_tag() }}
+                            <div class="mb-3 w-72 justify-center my-4">
+                                {{ bform.quant.label(class="font-extrabold") }}
+                                {{ bform.quant(class="form-control") }}
+                                {% if bform.quant.errors %}
+                                <ul class="text-danger">
+                                    {% for error in bform.quant.errors %}
+                                    <li>{{ error }}</li>
+                                    {% endfor %}
+                                </ul>
+                                {% endif %}
+                            </div>
+                            <div>
+                                {{ bform.submit(class="btn btn-success", type='submit') }}
+                            </div>
+                            </form>
+                            <div class="my-7">
+                                <a href="{{ url_for('add_to_cart',user=user[0],quant=quant)}}">
+                                <button class="btn btn-success">Add to cart</button>
+                                </a>
+                            </div>
+                            </div>
+                        
                     </div>
-                    <div class="mb-3 w-72 justify-center my-4">
-                        {{ form.review.label(class="font-extrabold") }}
-                        {{ form.review(class="form-control") }}
-                        {% if form.review.errors %}
-                        <ul class="text-danger">
-                            {% for error in form.review.errors %}
-                            <li>{{ error }}</li>
-                            {% endfor %}
-                        </ul>
-                        {% endif %}
-                    </div>
-                    <div>
-                        {{ form.submit(class="btn btn-success", type='submit') }}
-                    </div>
-                    <a href="{{url_for('add_to_cart')}}">
-                        <button class="btn btn-success">ADD TO CART</button>
-
-                    </a>
-                </form>
                 </div>
             </div>
         </div>
     </div>
-</div>
 </div>
 {% endblock %}

@@ -1,6 +1,30 @@
 {% extends 'layout.html' %}
 {% block content %}
 <div>
-
+    <h1 class="font-extrabold my-7 mx-3">Cart for {{ customer_name }}</h1>
+    <table class="table">
+        <thead>
+            <tr>
+                <th scope="col">Product Name</th>
+                <th scope="col">Price</th>
+                <th scope="col">Quantity</th>
+                <th scope="col">Total Price</th>
+            </tr>
+        </thead>
+        <tbody>
+            {% for item in cart_items %}
+            <tr>
+                <td>{{ item[1] }}</td>
+                <td>{{ item[2] }}</td>
+                <td>{{ item[3] }}</td>
+                <td>{{ item[2] * item[3] }}</td>
+            </tr>
+            {% endfor %}
+        </tbody>
+    </table>
+    <h2 class="font-extrabold my-5">Total Amount: {{ total_amount }}</h2>
+    <form method="post" action="{{ url_for('your_cart') }}">
+        <button class="btn btn-success my-5" type="submit">Submit Order</button>
+    </form>
 </div>
-{% endblock content%}
+{% endblock %}

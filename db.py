@@ -34,7 +34,9 @@ cur=conn.cursor()
 #   order_id integer primary key,
 #   customer_id integer,
 #   order_date date,
-#   total_amount numeric);
+#   total_amount numeric,
+#   list_id integer,
+# foreign_key(list_id) refrences product_list(list_id));
             
 #  create table products(
 #   product_id serial primary key
@@ -45,13 +47,15 @@ cur=conn.cursor()
              
 #   create table product_list(
 #   product_id integer,
-#   order_id integer,
+#   list_id integer primary key,
 #   quantity integer ,
+#   customer_id integer
 #    foreign_key(product_id) references products(product_id) ,
-#     foreign_key(order_id) references orders(order_id) ,                  
+#     foreign_key(order_id) references orders(order_id) , 
+# foreign_key(customer_id) references customers(customer_id)                 
   
 #    );  
-#  create table orders(
+#  create table reviews(
 #   product_id integer
 #   product_id integer,
 #   customer_id integer,

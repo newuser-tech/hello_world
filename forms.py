@@ -1,6 +1,6 @@
 from flask_wtf import FlaskForm
 from wtforms import StringField,PasswordField,SubmitField,DecimalField,IntegerField
-from wtforms.validators import DataRequired,Length,Email,EqualTo
+from wtforms.validators import DataRequired,Length,Email,EqualTo,NumberRange
 
 
 class RegistrationForm(FlaskForm):
@@ -38,11 +38,15 @@ class deleteproduct(FlaskForm):
     submit=SubmitField('DELETE')
 class reviewsform(FlaskForm):
     review=StringField('Enter your review',validators=[DataRequired()])
-    rating=DecimalField('Rating')
+    rating=IntegerField('Rating',  validators=[DataRequired(),NumberRange(min=0 , max=5)])
     submit=SubmitField('SUMBIT')
 class selectionform(FlaskForm) :
     table=StringField('Table Name',validators=[DataRequired()]) 
     submit=SubmitField ("Display") 
+class quantityform(FlaskForm) :
+    quant=IntegerField('Quantity',validators=[DataRequired()])  
+    submit=SubmitField ("Submit Quantity") 
+
 
         
     
