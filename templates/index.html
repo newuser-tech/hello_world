@@ -36,8 +36,8 @@
         <br>
         <li>{{ results[3] }}</li>
         <li>quantity available={{results[5]}}</li>
-        <a href="{{url_for('productinfo',val=results[0])}}">
-          <li class="mx-80 "><img src="{{results[4]}}" width="130px" height="130px"> </li>
+        <a href="{{url_for('productinfo',val=results[0])}}"> click here to go to products page
+          <li class="mx-80 "><img src="{{ url_for('static' , results[4])}}" width="130px" height="130px"> </li>
         </a>
         </div>
 
@@ -59,7 +59,7 @@
 </div>
 <div class="card-group mx-8 " style="height: 300px; width: auto;">
   <div class="card mx-8">
-    <img src="{{ 'static',data[4] }}" class="card-img-top " style="height: 100px; width:auto" alt="TELEVISION">
+    <img src="{{url_for('static',data[4]) }}" class="card-img-top " style="height: 100px; width:auto" alt="TELEVISION">
     <div class="card-body ">
       <h3 class="card-title font-bold">{{ data[1] }}</h3>
       <p class="card-text"> price={{ data[2] }}</p>
@@ -77,7 +77,7 @@
     </div>
   </div>
   <div class="card mx-8" style="height: 300px; width: auto;">
-    <img src="{{ 'static', mata[4] }}" class="card-img-top" style="height: 100px; width: auto;" alt="...">
+    <img src="{{ url_for( 'static', mata[4]) }}" class="card-img-top" style="height: 100px; width: auto;" alt="...">
     <div class="card-body">
       <h5 class="card-title font-bold ">{{ mata[1] }}</h5>
       <p class="card-text"> price={{ mata[2] }}</p>
@@ -90,7 +90,7 @@
   </div>
 
   <div class="card mx-8" style="height: 300px; width: auto;">
-    <img src="{{  'static',tata[4] }}" class="card-img-top" style="height: 100px; width: auto;" alt="fridge">
+    <img src="{{ url_for( 'static',tata[4] )}}" class="card-img-top" style="height: 100px; width: auto;" alt="fridge">
     <div class="card-body">
       <h5 class="card-title font-bold">{{ tata[1] }}</h5>
       <p class="card-text">price={{ tata[2] }}</p>
@@ -103,7 +103,7 @@
   </div>
 
   <div class="card mx-8" style="height: 300px; width: auto;">
-    <img src="{{ 'static', aata[4] }}" class="card-img-top " style="height: 100px; width: auto;" alt="TELEVISION">
+    <img src="{{ url_for('static', aata[4] )}}" class="card-img-top " style="height: 100px; width: auto;" alt="TELEVISION">
     <div class="card-body ">
       <h3 class="card-title font-bold">{{ aata[1] }}</h3>
       <p class="card-text"> price={{ aata[2] }}</p>
@@ -118,7 +118,7 @@
   </div>
 
   <div class="card mx-8" style="height: 300px; width: auto;">
-    <img src="{{ 'static', rata[4] }}" class="card-img-top " style="height: 100px; width: auto;" alt="TELEVISION">
+    <img src="{{ url_for('static', rata[4])}}" class="card-img-top " style="height: 100px; width: auto;" alt="TELEVISION">
     <div class="card-body ">
       <h3 class="card-title font-bold">{{ rata[1] }}</h3>
       <p class="card-text"> price={{ rata[2] }}</p>
@@ -133,7 +133,7 @@
   </div>
 
   <div class="card mx-8" style="height: 300px; width: auto;">
-    <img src="{{ 'static', lata[4] }}" class="card-img-top " style="height: 100px; width: auto;" alt="TELEVISION">
+    <img src="{{ url_for('static', lata[4]) }}" class="card-img-top " style="height: 100px; width: auto;" alt="TELEVISION">
     <div class="card-body ">
       <h3 class="card-title font-bold">{{ lata[1] }}</h3>
       <p class="card-text"> price={{ lata[2] }}</p>
