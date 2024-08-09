@@ -4,11 +4,13 @@ import psycopg2
 
 
 bac_bp = Blueprint('bac', __name__)
+
+# Function to establish database connection
 def db_conn():
-    DB_NAME = "hello"
-    DB_USER = "postgres"
-    DB_PASS = "computer@1234"
-    DB_HOST = "localhost"
+    DB_NAME = "pujanpaney"
+    DB_USER = "pujanpaney_user"
+    DB_PASS = "EsA2GJyO3OvR56JwcHpUBnkNcri4Wp5P"
+    DB_HOST = "dpg-cqqr4p0gph6c738elvm0-a.oregon-postgres.render.com"
     DB_PORT = "5432"
 
     conn = psycopg2.connect(database=DB_NAME,
