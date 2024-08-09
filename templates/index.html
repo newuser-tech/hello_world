@@ -36,6 +36,7 @@
         <br>
         <li>{{ results[3] }}</li>
         <li>quantity available={{results[5]}}</li>
+        <h5 class="my-2">click on the picture to goto product page</h5>
         <a href="{{url_for('productinfo',var=results[0])}}">
           <li class="mx-80 "> <img src="{{ url_for('static' , filename=results[4])}}" width="130px" height="130px"> </li>
         </a>
