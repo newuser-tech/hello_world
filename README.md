@@ -28,9 +28,19 @@ $ python ./app.py
 
 
 ## Demo and Link generated after hosting
- Demo link:  https://www.loom.com/share/8ea34c245d4749af8380cd6c50f5392c?sid=9fd503b3-345f-4d4c-9e5a-a6f566fed7cb&fbclid=IwY2xjawEkPHNleHRuA2FlbQIxMAABHWtmbxapQrIZr1uAdNT9TyPnri35r8qCPULihIBQMf7GHyHrBoevJvEXkw_aem_KWNya2jBIAXyVYFlVNXQQg
+ [![Website Demo]( https://www.loom.com/share/8ea34c245d4749af8380cd6c50f5392c?sid=9fd503b3-345f-4d4c-9e5a-a6f566fed7cb&fbclid=IwY2xjawEkPHNleHRuA2FlbQIxMAABHWtmbxapQrIZr1uAdNT9TyPnri35r8qCPULihIBQMf7GHyHrBoevJvEXkw_aem_KWNya2jBIAXyVYFlVNXQQg)
 
- Hosted website link:   https://pasal-2qa1.onrender.com
+ [![Website] (https://pasal-2qa1.onrender.com)
+
+ ## Backend
+ Flask: A high-level Python Web framework that encourages rapid development and clean, pragmatic design.
+PostgreSQL: A powerful, open-source object-relational database system.
+## Frontend:
+HTML: For structuring the web pages.
+CSS: For styling the web pages.
+JavaScript: For interactivity and dynamic content on the client-side.
+## Deployment
+Render: Cloud platform used for deploying the application.
 
 
 
