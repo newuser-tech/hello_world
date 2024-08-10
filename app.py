@@ -39,8 +39,15 @@ def hello_world():
     bcr=form.var.data
     
     a=[]
-    cur.execute('SELECT * FROM products ORDER BY product_id ASC')
+    cur.execute('SELECT * FROM products where quantity > 0 ORDER BY product_id ASC')
     a=cur.fetchall()
+    c= len(a)
+    lata=[]
+    rata=[]
+    tata=[]
+    mata=[]
+    aata=[]
+    data=[]
     
     if a:
       b=a[0][0]
@@ -48,16 +55,26 @@ def hello_world():
     
     cur.execute('select * from products where product_id =%s',(b,))
     mata=cur.fetchone()
-    cur.execute('select * from products where product_id =%s',(b+1,))
-    data=cur.fetchone()
-    cur.execute('select * from products where product_id =%s',(b+2,))
-    tata=cur.fetchone()
-    cur.execute('select * from products where product_id =%s',(b+3,))
-    aata=cur.fetchone()
-    cur.execute('select * from products where product_id =%s',(b+4,))
-    rata=cur.fetchone()
-    cur.execute('select * from products where product_id =%s',(b+5,))
-    lata=cur.fetchone()
+    if c>1:
+       cur.execute('select * from products where product_id =%s',(a[1][0],))
+       data=cur.fetchone()
+       
+    if c>2:   
+       cur.execute('select * from products where product_id =%s',(a[2][0],))
+       tata=cur.fetchone()
+       
+    if c>3:   
+       cur.execute('select * from products where product_id =%s',(a[3][0],))
+       aata=cur.fetchone()
+       
+    if c>4:   
+        cur.execute('select * from products where product_id =%s',(a[4][0],))
+        rata=cur.fetchone()
+        
+    if c>5:    
+        cur.execute('select * from products where product_id =%s',(a[5][0],))
+        lata=cur.fetchone()
+        
     if bcr != '' :
        pattern = f'{bcr}%'
        cur.execute('SELECT * FROM products WHERE name ILIKE %s', (pattern,))
@@ -115,8 +132,8 @@ def reg():
     return render_template('login.html', form=form) 
 @app.route('/login', methods=['GET', 'POST'])
 def login():
-    if  session.get("email"):
-        flash("already logged in as admin",'danger')
+    if  session.get("email") or session.get('name'):
+        flash("already logged ",'danger')
     
         return redirect(url_for('hello_world'))
         
@@ -184,7 +201,7 @@ def productinfo():
         cur.execute('SELECT r.review_id, r.customer_id, r.product_id, r.rating, r.comment, c.name '
                     'FROM reviews r JOIN customers c ON r.customer_id = c.customer_id '
                     'WHERE r.product_id = %s '
-                    'ORDER BY r.review_id LIMIT 3', (product_id,))
+                    'ORDER BY r.review_id desc LIMIT 3', (product_id,))
         reviews = cur.fetchall()
 
         avg_rating = 0
