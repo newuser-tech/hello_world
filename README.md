@@ -38,12 +38,12 @@ $ python ./app.py
     <img src="https://img.shields.io/badge/Live Website-Click here-blue?style=for-the-badge" alt="Live Website" style="height: 40px;"/>
 </a>
 
- ## Backend
+ ## Backend 
  Flask: A high-level Python Web framework that encourages rapid development and clean, pragmatic design.
 PostgreSQL: A powerful, open-source object-relational database system.
-## Frontend:
+## Frontend
 HTML: For structuring the web pages.
-CSS: For styling the web pages.
+CSS: For styling the web pages we used bootstrap css library extensively.
 JavaScript: For interactivity and dynamic content on the client-side.
 ## Deployment
 Render: Cloud platform used for deploying the application.
