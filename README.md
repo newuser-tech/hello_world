@@ -28,9 +28,9 @@ $ python ./app.py
 
 
 ## Demo and Link generated after hosting
- ![Website Demo](https://img.shields.io/badge/Website-Demo-brightgreen)]( https://www.loom.com/share/8ea34c245d4749af8380cd6c50f5392c?sid=9fd503b3-345f-4d4c-9e5a-a6f566fed7cb&fbclid=IwY2xjawEkPHNleHRuA2FlbQIxMAABHWtmbxapQrIZr1uAdNT9TyPnri35r8qCPULihIBQMf7GHyHrBoevJvEXkw_aem_KWNya2jBIAXyVYFlVNXQQg)
+ ![Website Demo](https://img.shields.io/badge/https://www.loom.com/share/8ea34c245d4749af8380cd6c50f5392c?sid=9fd503b3-345f-4d4c-9e5a-a6f566fed7cb&fbclid=IwY2xjawEkPHNleHRuA2FlbQIxMAABHWtmbxapQrIZr1uAdNT9TyPnri35r8qCPULihIBQMf7GHyHrBoevJvEXkw_aem_KWNya2jBIAXyVYFlVNXQQg)
 
- ![Website Demo](https://img.shields.io/badge/Website-Demo-brightgreen)](https://pasal-2qa1.onrender.com)
+ ![Website Demo](https://img.shields.io/badge/https://pasal-2qa1.onrender.com)
 
  ## Backend
  Flask: A high-level Python Web framework that encourages rapid development and clean, pragmatic design.
