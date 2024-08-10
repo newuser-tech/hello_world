@@ -24,6 +24,10 @@ $ pip install -r requirements.text
 6. Run the following command to start the application:
 
 $ python ./app.py
+##Demo and Link generated after hosting
+ Demo link:https://www.loom.com/share/8ea34c245d4749af8380cd6c50f5392c?sid=9fd503b3-345f-4d4c-9e5a-a6f566fed7cb&fbclid=IwY2xjawEkPHNleHRuA2FlbQIxMAABHWtmbxapQrIZr1uAdNT9TyPnri35r8qCPULihIBQMf7GHyHrBoevJvEXkw_aem_KWNya2jBIAXyVYFlVNXQQg
+
+ Hosted website link:https://pasal-2qa1.onrender.com
 
 
 
